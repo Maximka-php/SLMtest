@@ -119,7 +119,6 @@ class User
 
     static function connect()
     {
-
         $connect = mysqli_connect('localhost', 'root', '', 'User');
         if (!$connect) {
             die('Ошибка подключения');
