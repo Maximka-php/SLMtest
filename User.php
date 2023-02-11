@@ -6,7 +6,6 @@
  * содержит некоторые методы обработки информации из БД,
  * таблица Human.
  */
-
 class User
 {
     public $id;
@@ -24,7 +23,7 @@ class User
     {
         if (func_num_args() == 5) {
             $a = func_get_args();
-            self::validate($a[0],$a[1],$a[2],$a[3],$a[4]);
+            self::validate($a[0], $a[1], $a[2], $a[3], $a[4]);
             $this->name = $a[0];
             $this->surname = $a[1];
             $this->date_birth = $a[2];
@@ -38,7 +37,6 @@ class User
 
     public function find($id)
     {
-
         $conn = $this->connect();
         $sql = "SELECT * FROM Human WHERE id = '$id'";
         if ($human = mysqli_fetch_assoc(mysqli_query($conn, $sql))) {
@@ -76,9 +74,8 @@ class User
      * @return bool
      * Удаление человека из БД в соответствии с id объекта
      */
-    static function delete($id) :bool
+    static function delete($id): bool
     {
-
         $conn = self::connect();
         $sql = "DELETE FROM Human WHERE id = $id;";
         if (mysqli_query($conn, $sql)) {
@@ -117,7 +114,10 @@ class User
         return $string_gender;
     }
 
-    static function connect()
+    /**
+     * @return object
+     */
+    static function connect(): object
     {
         $connect = mysqli_connect('localhost', 'root', '', 'User');
         if (!$connect) {
@@ -132,7 +132,7 @@ class User
      * Может принимать один или два параметра.
      * Если параметра два - первым принимается дата рождения.
      */
-    public function find_format_human()
+    public function find_format_human(): object
     {
         $a = new stdClass();
         $a->id = $this->id;
@@ -157,7 +157,16 @@ class User
         return (object)$a;
     }
 
-    static function validate($name, $surname, $date_birth, $gender, $city_birth)
+    /**
+     * @param $name
+     * @param $surname
+     * @param $date_birth
+     * @param $gender
+     * @param $city_birth
+     * @return void
+     *
+     */
+    static function validate($name, $surname, $date_birth, $gender, $city_birth): void
     {
         if ($name !== null) {
             if (!preg_match("/^[a-zA-Zа-яА-Я]+$/i", $name)) {

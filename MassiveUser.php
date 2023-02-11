@@ -21,24 +21,10 @@ class MassiveUser
 
     public function __construct(array $params)
     {
+        $options = [];
         foreach ($params as $key => $param) {
-            if ($key == 'name') {
-                $options[] = "`name` {$param['operand']} '{$param['name']}'";
-            }
-            if ($key == 'surname') {
-                $options[] = "`surname` {$param['operand']} '{$param['surname']}'";
-            }
-            if ($key == 'date_birth') {
-                $options[] = "`date_birth` {$param['operand']} '{$param['date_birth']}'";
-            }
-            if ($key == 'gender') {
-                $options[] = "`gender` {$param['operand']} '{$param['gender']}'";
-            }
-            if ($key == 'city_birth') {
-                $options[] = "`city_birth` {$param['operand']} '{$param['city_birth']}'";
-            }
+            $options[] = "`{$key}` {$param['operand']} '{$param[$key]}'";
         }
-
         $sql = "SELECT id FROM Human WHERE {$options[0]}";
         if (($a = count($options)) > 1) {
             for ($i = 1; $i < $a; $i++) {
@@ -53,6 +39,32 @@ class MassiveUser
                 $this->massiv_id[] .= $row['id'];
             }
         }
+    }
+
+    /**
+     * @return array
+     * Возвращает массив объектов класса User в соответствии с massiv_id
+     */
+    public function find_users() : array
+    {
+        $massiv_users = [];
+        foreach ($this->massiv_id as $id) {
+            $massiv_users[] = new User($id);
+        }
+
+        return $massiv_users;
+    }
+
+    /**
+     * @return void
+     * Удаляет записи из БД в соответствии с massiv_id
+     */
+    public function delete_users() : void
+    {
+        foreach ($this->massiv_id as $id){
+            User::delete($id);
+        }
+
     }
 }
 
