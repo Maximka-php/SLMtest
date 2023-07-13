@@ -18,7 +18,7 @@ class MassiveUser
      * Конструктор класса, при создании объекта получаем массив id по заданным критериям.
      * Возможные ключи значений: name,surname,date_birth,gender,city_birth,operand.
      */
-
+//111 test
     public function __construct(array $params)
     {
         $options = [];
